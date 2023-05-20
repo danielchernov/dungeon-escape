@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IDamageable
 {
     private Rigidbody2D _playerBody;
     private SpriteRenderer _playerRenderer;
@@ -23,6 +23,8 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     private LayerMask _groundLayer;
+
+    public int Health { get; set; }
 
     void Start()
     {
@@ -72,16 +74,35 @@ public class Player : MonoBehaviour
 
     bool IsGrounded()
     {
-        RaycastHit2D hit = Physics2D.Raycast(
-            transform.position,
+        float rayDistanceX = 0.3f;
+
+        RaycastHit2D hit1 = Physics2D.Raycast(
+            new Vector2(transform.position.x - rayDistanceX, transform.position.y),
+            Vector2.down,
+            0.8f,
+            _groundLayer.value
+        );
+        RaycastHit2D hit2 = Physics2D.Raycast(
+            new Vector2(transform.position.x + rayDistanceX, transform.position.y),
             Vector2.down,
             0.8f,
             _groundLayer.value
         );
 
-        Debug.DrawRay(transform.position, Vector2.down, Color.green, 0.8f);
+        Debug.DrawRay(
+            new Vector2(transform.position.x - rayDistanceX, transform.position.y),
+            Vector2.down,
+            Color.green,
+            0.8f
+        );
+        Debug.DrawRay(
+            new Vector2(transform.position.x + rayDistanceX, transform.position.y),
+            Vector2.down,
+            Color.green,
+            0.8f
+        );
 
-        if (hit.collider != null && !_resetJumpNeeded)
+        if ((hit1.collider != null || hit2.collider != null) && !_resetJumpNeeded)
         {
             _playerAnimation.Jump(false);
             return true;
@@ -127,5 +148,10 @@ public class Player : MonoBehaviour
                 _swordRenderer.transform.localPosition = newPos;
             }
         }
+    }
+
+    public void Damage()
+    {
+        Debug.Log("Player Hit!");
     }
 }
