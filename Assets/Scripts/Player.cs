@@ -26,6 +26,8 @@ public class Player : MonoBehaviour, IDamageable
 
     public int Health { get; set; }
 
+    public int Diamonds = 0;
+
     void Start()
     {
         _playerBody = GetComponent<Rigidbody2D>();
@@ -74,7 +76,7 @@ public class Player : MonoBehaviour, IDamageable
 
     bool IsGrounded()
     {
-        float rayDistanceX = 0.3f;
+        float rayDistanceX = 0.25f;
 
         RaycastHit2D hit1 = Physics2D.Raycast(
             new Vector2(transform.position.x - rayDistanceX, transform.position.y),

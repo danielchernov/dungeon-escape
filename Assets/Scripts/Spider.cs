@@ -17,11 +17,22 @@ public class Spider : Enemy
 
     public override void Damage()
     {
+        if (isDead)
+        {
+            return;
+        }
+
         Health--;
         if (Health < 1)
         {
             isDead = true;
             enemyAnimator.SetTrigger("Dead");
+            GameObject spawnedGem = Instantiate(
+                gemToSpawn,
+                transform.position,
+                Quaternion.identity
+            );
+            spawnedGem.GetComponent<Diamond>().DiamondValue = base.gems;
         }
     }
 

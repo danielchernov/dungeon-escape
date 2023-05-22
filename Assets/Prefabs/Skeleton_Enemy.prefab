@@ -141,10 +141,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 3
   speed: 2
-  gems: 0
+  gems: 10
   waypoints:
   - {fileID: 0}
   - {fileID: 0}
+  gemToSpawn: {fileID: 0}
 --- !u!61 &6184854003394472737
 BoxCollider2D:
   m_ObjectHideFlags: 0

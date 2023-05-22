@@ -198,9 +198,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 1
-  speed: 1.5
-  gems: 0
+  speed: 0
+  gems: 20
   waypoints: []
+  gemToSpawn: {fileID: 3912141871803373208, guid: ae36836c43fea744bbd8a6efb1aa1344, type: 3}
   acidPrefab: {fileID: 2042272302316600250, guid: 2aa844b3cbbe55745ae5812a59af534e, type: 3}
   spawnPoint: {fileID: 1545538664}
 --- !u!61 &983124706259641409
@@ -216,7 +217,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.13482141, y: -0.46123114}
+  m_Offset: {x: -0.11006689, y: -0.46123114}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -227,5 +228,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.4239035, y: 0.93850225}
+  m_Size: {x: 1.6812611, y: 0.93850225}
   m_EdgeRadius: 0

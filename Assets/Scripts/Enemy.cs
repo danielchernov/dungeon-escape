@@ -28,6 +28,9 @@ public abstract class Enemy : MonoBehaviour, IDamageable
 
     public int Health { get; set; }
 
+    [SerializeField]
+    protected GameObject gemToSpawn;
+
     public virtual void Init()
     {
         enemyAnimator = GetComponentInChildren<Animator>();
@@ -115,6 +118,11 @@ public abstract class Enemy : MonoBehaviour, IDamageable
 
     public virtual void Damage()
     {
+        if (isDead)
+        {
+            return;
+        }
+
         Health--;
         enemyAnimator.SetTrigger("Hit");
         enemyAnimator.SetBool("InCombat", true);
@@ -124,6 +132,13 @@ public abstract class Enemy : MonoBehaviour, IDamageable
         {
             isDead = true;
             enemyAnimator.SetTrigger("Dead");
+
+            GameObject spawnedGem = Instantiate(
+                gemToSpawn,
+                transform.position,
+                Quaternion.identity
+            );
+            spawnedGem.GetComponent<Diamond>().DiamondValue = gems;
         }
     }
 }
