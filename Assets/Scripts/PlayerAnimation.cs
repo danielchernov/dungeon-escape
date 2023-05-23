@@ -28,4 +28,15 @@ public class PlayerAnimation : MonoBehaviour
         _playerAnimator.SetTrigger("Attack");
         _swordArcAnimator.SetTrigger("SwordArc");
     }
+
+    public void Hit()
+    {
+        _playerAnimator.SetTrigger("Hit");
+    }
+
+    public void Dead()
+    {
+        _playerAnimator.SetTrigger("Dead");
+        Debug.Log("Player Died!");
+    }
 }

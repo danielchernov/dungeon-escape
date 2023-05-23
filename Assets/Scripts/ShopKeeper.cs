@@ -10,6 +10,9 @@ public class ShopKeeper : MonoBehaviour
     [SerializeField]
     private int _selectedItem;
 
+    [SerializeField]
+    private AudioClip audioSFX;
+
     private int _itemPrice;
 
     private Player _player;
@@ -77,6 +80,9 @@ public class ShopKeeper : MonoBehaviour
             }
 
             _player.Diamonds -= _itemPrice;
+            UIManager.Instance.UpdateGemCount(_player.Diamonds);
+            AudioManager.Instance.PlaySFX(audioSFX, 0.5f);
+
             _shopUI.SetActive(false);
         }
         else

@@ -18,6 +18,7 @@ public abstract class Enemy : MonoBehaviour, IDamageable
 
     protected Animator enemyAnimator;
     protected SpriteRenderer enemyRenderer;
+    protected Transform enemyHitbox;
     protected int currentTarget;
 
     protected bool isHit = false;
@@ -31,10 +32,14 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     [SerializeField]
     protected GameObject gemToSpawn;
 
+    [SerializeField]
+    protected AudioClip[] sfxAudios;
+
     public virtual void Init()
     {
         enemyAnimator = GetComponentInChildren<Animator>();
         enemyRenderer = GetComponentInChildren<SpriteRenderer>();
+        enemyHitbox = transform.GetChild(0);
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         Health = health;
     }
@@ -68,11 +73,19 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     {
         if (currentTarget == 0)
         {
-            enemyRenderer.flipX = true;
+            //enemyRenderer.flipX = true;
+            if (enemyHitbox != null)
+            {
+                enemyHitbox.rotation = Quaternion.Euler(0, 180, enemyHitbox.rotation.eulerAngles.z);
+            }
         }
         else if (currentTarget == 1)
         {
-            enemyRenderer.flipX = false;
+            //enemyRenderer.flipX = false;
+            if (enemyHitbox != null)
+            {
+                enemyHitbox.rotation = Quaternion.Euler(0, 0, enemyHitbox.rotation.eulerAngles.z);
+            }
         }
 
         if (transform.position == waypoints[0].position)
@@ -96,7 +109,7 @@ public abstract class Enemy : MonoBehaviour, IDamageable
         }
 
         float distance = Vector3.Distance(transform.position, player.transform.position);
-        if (distance > 5)
+        if (distance > 3)
         {
             enemyAnimator.SetBool("InCombat", false);
             isHit = false;
@@ -107,11 +120,27 @@ public abstract class Enemy : MonoBehaviour, IDamageable
         {
             if (direction.x > 0)
             {
-                enemyRenderer.flipX = false;
+                //enemyRenderer.flipX = false;
+                if (enemyHitbox != null)
+                {
+                    enemyHitbox.rotation = Quaternion.Euler(
+                        0,
+                        0,
+                        enemyHitbox.rotation.eulerAngles.z
+                    );
+                }
             }
             else
             {
-                enemyRenderer.flipX = true;
+                //enemyRenderer.flipX = true;
+                if (enemyHitbox != null)
+                {
+                    enemyHitbox.rotation = Quaternion.Euler(
+                        0,
+                        180,
+                        enemyHitbox.rotation.eulerAngles.z
+                    );
+                }
             }
         }
     }
@@ -128,10 +157,13 @@ public abstract class Enemy : MonoBehaviour, IDamageable
         enemyAnimator.SetBool("InCombat", true);
         isHit = true;
 
+        AudioManager.Instance.PlaySFX(sfxAudios[0], 0.5f);
+
         if (Health < 1)
         {
             isDead = true;
             enemyAnimator.SetTrigger("Dead");
+            AudioManager.Instance.PlaySFX(sfxAudios[1], 0.5f);
 
             GameObject spawnedGem = Instantiate(
                 gemToSpawn,

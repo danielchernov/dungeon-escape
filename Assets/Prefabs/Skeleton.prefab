@@ -104,18 +104,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 4116292444447779205}
     m_Modifications:
     - target: {fileID: 21643956, guid: 1cb3dfd9221e42b4686837a4697bf1fa, type: 3}
-      propertyPath: gems
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 21643956, guid: 1cb3dfd9221e42b4686837a4697bf1fa, type: 3}
-      propertyPath: gemToSpawn
-      value: 
-      objectReference: {fileID: 3912141871803373208, guid: ae36836c43fea744bbd8a6efb1aa1344, type: 3}
-    - target: {fileID: 21643956, guid: 1cb3dfd9221e42b4686837a4697bf1fa, type: 3}
-      propertyPath: _gemToSpawn
-      value: 
-      objectReference: {fileID: 3912141871803373208, guid: ae36836c43fea744bbd8a6efb1aa1344, type: 3}
-    - target: {fileID: 21643956, guid: 1cb3dfd9221e42b4686837a4697bf1fa, type: 3}
       propertyPath: waypoints.Array.data[0]
       value: 
       objectReference: {fileID: 2268547687065673677}
@@ -170,10 +158,6 @@ PrefabInstance:
     - target: {fileID: 6184854003372829101, guid: 1cb3dfd9221e42b4686837a4697bf1fa, type: 3}
       propertyPath: m_Name
       value: Skeleton_Enemy
-      objectReference: {fileID: 0}
-    - target: {fileID: 6184854003372829101, guid: 1cb3dfd9221e42b4686837a4697bf1fa, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1cb3dfd9221e42b4686837a4697bf1fa, type: 3}

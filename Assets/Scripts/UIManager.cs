@@ -21,6 +21,13 @@ public class UIManager : MonoBehaviour
 
     public Text gemCountText;
     public Image selectionFill;
+    public Image[] healthUnits;
+    public Text gemCountHUD;
+
+    private void Awake()
+    {
+        _instance = this;
+    }
 
     public void OpenShop(int gemCount)
     {
@@ -32,8 +39,18 @@ public class UIManager : MonoBehaviour
         selectionFill.rectTransform.anchoredPosition = new Vector3(10, yPos, 0);
     }
 
-    private void Awake()
+    public void UpdateGemCount(int gemCount)
     {
-        _instance = this;
+        gemCountHUD.text = gemCount + "G";
+    }
+
+    public void UpdateLives(int livesRemaining)
+    {
+        for (int i = 0; i < livesRemaining; i++)
+        {
+            healthUnits[i].gameObject.SetActive(true);
+        }
+
+        healthUnits[livesRemaining].gameObject.SetActive(false);
     }
 }

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class AcidEffect : MonoBehaviour
 {
+    public bool goRight = true;
+
     void Start()
     {
         Destroy(gameObject, 5f);
@@ -11,7 +13,14 @@ public class AcidEffect : MonoBehaviour
 
     void Update()
     {
-        transform.Translate(Vector2.right * 3 * Time.deltaTime);
+        if (goRight)
+        {
+            transform.Translate(Vector2.right * 3 * Time.deltaTime);
+        }
+        else
+        {
+            transform.Translate(Vector2.left * 3 * Time.deltaTime);
+        }
     }
 
     void OnTriggerEnter2D(Collider2D collider)

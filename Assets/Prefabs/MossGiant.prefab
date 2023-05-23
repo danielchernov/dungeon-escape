@@ -107,10 +107,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: MossGiant_Enemy
       objectReference: {fileID: 0}
-    - target: {fileID: 54511901886005441, guid: 090925bc36b2ae249a2c7db48a805c0e, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 54511901886005442, guid: 090925bc36b2ae249a2c7db48a805c0e, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -155,14 +151,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 54511901886005443, guid: 090925bc36b2ae249a2c7db48a805c0e, type: 3}
-      propertyPath: gemToSpawn
-      value: 
-      objectReference: {fileID: 3912141871803373208, guid: ae36836c43fea744bbd8a6efb1aa1344, type: 3}
-    - target: {fileID: 54511901886005443, guid: 090925bc36b2ae249a2c7db48a805c0e, type: 3}
-      propertyPath: _gemToSpawn
-      value: 
-      objectReference: {fileID: 3912141871803373208, guid: ae36836c43fea744bbd8a6efb1aa1344, type: 3}
     - target: {fileID: 54511901886005443, guid: 090925bc36b2ae249a2c7db48a805c0e, type: 3}
       propertyPath: waypoints.Array.data[0]
       value: 

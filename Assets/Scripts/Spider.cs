@@ -10,6 +10,9 @@ public class Spider : Enemy
     [SerializeField]
     Transform spawnPoint;
 
+    [SerializeField]
+    private bool goRight = false;
+
     public override void Init()
     {
         base.Init();
@@ -27,6 +30,8 @@ public class Spider : Enemy
         {
             isDead = true;
             enemyAnimator.SetTrigger("Dead");
+            AudioManager.Instance.PlaySFX(sfxAudios[0], 0.5f);
+
             GameObject spawnedGem = Instantiate(
                 gemToSpawn,
                 transform.position,
@@ -40,6 +45,7 @@ public class Spider : Enemy
 
     public void Attack()
     {
-        Instantiate(acidPrefab, spawnPoint.position, Quaternion.identity);
+        GameObject acid = Instantiate(acidPrefab, spawnPoint.position, Quaternion.identity);
+        acid.GetComponent<AcidEffect>().goRight = goRight;
     }
 }

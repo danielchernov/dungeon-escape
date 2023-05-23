@@ -110,7 +110,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &6184854003372829100
 Transform:
   m_ObjectHideFlags: 0
@@ -141,11 +141,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 3
   speed: 2
-  gems: 10
+  gems: 20
   waypoints:
   - {fileID: 0}
   - {fileID: 0}
-  gemToSpawn: {fileID: 0}
+  gemToSpawn: {fileID: 3912141871803373208, guid: ae36836c43fea744bbd8a6efb1aa1344, type: 3}
+  sfxAudios:
+  - {fileID: 8300000, guid: 10abde2a2af7a46b6bdf11550c7c20da, type: 3}
+  - {fileID: 8300000, guid: 2c47283b1d65e4ce493c16740b1163a9, type: 3}
 --- !u!61 &6184854003394472737
 BoxCollider2D:
   m_ObjectHideFlags: 0

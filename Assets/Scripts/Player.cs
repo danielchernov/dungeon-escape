@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour, IDamageable
 {
     private Rigidbody2D _playerBody;
-    private SpriteRenderer _playerRenderer;
+
+    //private SpriteRenderer _playerRenderer;
     private SpriteRenderer _swordRenderer;
     private PlayerAnimation _playerAnimation;
 
@@ -28,23 +30,37 @@ public class Player : MonoBehaviour, IDamageable
 
     public int Diamonds = 0;
 
+    private bool isDead = false;
+
+    private PlayerInput playerInput;
+
+    [SerializeField]
+    private AudioClip[] sfxAudios;
+
     void Start()
     {
         _playerBody = GetComponent<Rigidbody2D>();
         _playerAnimation = GetComponent<PlayerAnimation>();
-        _playerRenderer = transform.GetChild(0).GetComponent<SpriteRenderer>();
         _swordRenderer = transform.GetChild(1).GetComponent<SpriteRenderer>();
+        playerInput = GetComponent<PlayerInput>();
+        //_playerRenderer = transform.GetChild(0).GetComponent<SpriteRenderer>();
+
+        Health = 4;
     }
 
     void Update()
     {
-        Movement();
-        Attack();
+        if (!isDead)
+        {
+            Movement();
+            Attack();
+        }
     }
 
     void Attack()
     {
         if (Input.GetMouseButtonDown(0) && IsGrounded())
+        //if (playerInput.actions["Attack"].triggered && IsGrounded())
         {
             _playerAnimation.Attack();
         }
@@ -52,6 +68,8 @@ public class Player : MonoBehaviour, IDamageable
 
     void Movement()
     {
+        //Vector2 playerMovement = playerInput.actions["Move"].ReadValue<Vector2>();
+        //float horizontalMovement = playerMovement.x;
         float horizontalMovement = Input.GetAxisRaw("Horizontal");
 
         Flip(horizontalMovement);
@@ -59,11 +77,13 @@ public class Player : MonoBehaviour, IDamageable
         _isGrounded = IsGrounded();
 
         if (Input.GetButtonDown("Jump") && IsGrounded())
+        //if (playerInput.actions["Jump"].triggered && IsGrounded())
         {
             _playerBody.velocity = new Vector2(_playerBody.velocity.x, _jumpForce);
             StartCoroutine(Breather());
 
             _playerAnimation.Jump(true);
+            AudioManager.Instance.PlaySFX(sfxAudios[2], 0.5f);
         }
 
         _playerBody.velocity = new Vector2(
@@ -124,7 +144,12 @@ public class Player : MonoBehaviour, IDamageable
     {
         if (horizontalMovement > 0)
         {
-            _playerRenderer.flipX = false;
+            //_playerRenderer.flipX = false;
+            transform.GetChild(0).rotation = Quaternion.Euler(
+                0,
+                0,
+                transform.rotation.eulerAngles.z
+            );
 
             _swordRenderer.flipX = false;
             _swordRenderer.flipY = false;
@@ -138,7 +163,12 @@ public class Player : MonoBehaviour, IDamageable
         }
         else if (horizontalMovement < 0)
         {
-            _playerRenderer.flipX = true;
+            //_playerRenderer.flipX = true;
+            transform.GetChild(0).rotation = Quaternion.Euler(
+                0,
+                180,
+                transform.rotation.eulerAngles.z
+            );
 
             _swordRenderer.flipX = true;
             _swordRenderer.flipY = true;
@@ -154,6 +184,30 @@ public class Player : MonoBehaviour, IDamageable
 
     public void Damage()
     {
-        Debug.Log("Player Hit!");
+        if (!isDead)
+        {
+            Debug.Log("Player Hit!");
+
+            Health--;
+            UIManager.Instance.UpdateLives(Health);
+
+            if (Health < 1)
+            {
+                isDead = true;
+                _playerAnimation.Dead();
+                AudioManager.Instance.PlaySFX(sfxAudios[0], 0.5f);
+            }
+            else
+            {
+                _playerAnimation.Hit();
+                AudioManager.Instance.PlaySFX(sfxAudios[1], 0.5f);
+            }
+        }
+    }
+
+    public void AddGems(int amount)
+    {
+        Diamonds += amount;
+        UIManager.Instance.UpdateGemCount(Diamonds);
     }
 }
