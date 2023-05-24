@@ -24,6 +24,8 @@ public class UIManager : MonoBehaviour
     public Image[] healthUnits;
     public Text gemCountHUD;
 
+    public Text[] itemNames;
+
     private void Awake()
     {
         _instance = this;
@@ -51,6 +53,14 @@ public class UIManager : MonoBehaviour
             healthUnits[i].gameObject.SetActive(true);
         }
 
-        healthUnits[livesRemaining].gameObject.SetActive(false);
+        if (livesRemaining < 4)
+        {
+            healthUnits[livesRemaining].gameObject.SetActive(false);
+        }
+    }
+
+    public void UpdateNames(int itemNumber)
+    {
+        itemNames[itemNumber].text = "Sold out!";
     }
 }

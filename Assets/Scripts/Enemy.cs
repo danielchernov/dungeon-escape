@@ -35,12 +35,14 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     [SerializeField]
     protected AudioClip[] sfxAudios;
 
+    private Vector3 direction;
+
     public virtual void Init()
     {
         enemyAnimator = GetComponentInChildren<Animator>();
         enemyRenderer = GetComponentInChildren<SpriteRenderer>();
         enemyHitbox = transform.GetChild(0);
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        player = GameObject.Find("Player").GetComponent<Player>();
         Health = health;
     }
 
@@ -109,13 +111,18 @@ public abstract class Enemy : MonoBehaviour, IDamageable
         }
 
         float distance = Vector3.Distance(transform.position, player.transform.position);
+
         if (distance > 3)
         {
             enemyAnimator.SetBool("InCombat", false);
             isHit = false;
         }
 
-        Vector3 direction = player.transform.position - transform.position;
+        if (player != null)
+        {
+            direction = player.transform.position - transform.position;
+        }
+
         if (enemyAnimator.GetBool("InCombat"))
         {
             if (direction.x > 0)

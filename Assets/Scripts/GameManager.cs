@@ -19,14 +19,20 @@ public class GameManager : MonoBehaviour
     }
 
     public bool HasKeyToCastle { get; set; }
+    public Player player { get; private set; }
 
     private void Awake()
     {
         _instance = this;
+        player = GameObject.Find("Player").GetComponent<Player>();
     }
 
-    public void WinGame()
+    public void AddGems(int amount)
     {
-        Debug.Log("You Win!");
+        if (player != null)
+        {
+            player.Diamonds += amount;
+            UIManager.Instance.UpdateGemCount(player.Diamonds);
+        }
     }
 }

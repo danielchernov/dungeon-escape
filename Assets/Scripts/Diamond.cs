@@ -14,7 +14,7 @@ public class Diamond : MonoBehaviour
         if (collider.tag == "Player")
         {
             Player player = collider.GetComponent<Player>();
-            player.AddGems(DiamondValue);
+            GameManager.Instance.AddGems(DiamondValue);
 
             AudioManager.Instance.PlaySFX(sfxAudio, 0.3f);
 

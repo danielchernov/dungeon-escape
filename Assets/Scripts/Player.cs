@@ -11,11 +11,9 @@ public class Player : MonoBehaviour, IDamageable
     private SpriteRenderer _swordRenderer;
     private PlayerAnimation _playerAnimation;
 
-    [SerializeField]
-    private float _playerSpeed;
+    public float playerSpeed;
 
-    [SerializeField]
-    private float _jumpForce;
+    public float jumpForce;
 
     [SerializeField]
     private bool _resetJumpNeeded = false;
@@ -36,6 +34,9 @@ public class Player : MonoBehaviour, IDamageable
 
     [SerializeField]
     private AudioClip[] sfxAudios;
+
+    [SerializeField]
+    private GameObject _shopKeeper;
 
     void Start()
     {
@@ -59,8 +60,8 @@ public class Player : MonoBehaviour, IDamageable
 
     void Attack()
     {
-        if (Input.GetMouseButtonDown(0) && IsGrounded())
-        //if (playerInput.actions["Attack"].triggered && IsGrounded())
+        //if (Input.GetMouseButtonDown(0) && IsGrounded() && !_shopKeeper.activeSelf)
+        if (playerInput.actions["Attack"].triggered && IsGrounded())
         {
             _playerAnimation.Attack();
         }
@@ -68,18 +69,18 @@ public class Player : MonoBehaviour, IDamageable
 
     void Movement()
     {
-        //Vector2 playerMovement = playerInput.actions["Move"].ReadValue<Vector2>();
-        //float horizontalMovement = playerMovement.x;
-        float horizontalMovement = Input.GetAxisRaw("Horizontal");
+        Vector2 playerMovement = playerInput.actions["Move"].ReadValue<Vector2>();
+        float horizontalMovement = playerMovement.x;
+        //float horizontalMovement = Input.GetAxisRaw("Horizontal");
 
         Flip(horizontalMovement);
 
         _isGrounded = IsGrounded();
 
-        if (Input.GetButtonDown("Jump") && IsGrounded())
-        //if (playerInput.actions["Jump"].triggered && IsGrounded())
+        //if (Input.GetButtonDown("Jump") && IsGrounded())
+        if (playerInput.actions["Jump"].triggered && IsGrounded())
         {
-            _playerBody.velocity = new Vector2(_playerBody.velocity.x, _jumpForce);
+            _playerBody.velocity = new Vector2(_playerBody.velocity.x, jumpForce);
             StartCoroutine(Breather());
 
             _playerAnimation.Jump(true);
@@ -87,7 +88,7 @@ public class Player : MonoBehaviour, IDamageable
         }
 
         _playerBody.velocity = new Vector2(
-            horizontalMovement * _playerSpeed * Time.deltaTime,
+            horizontalMovement * playerSpeed * Time.deltaTime,
             _playerBody.velocity.y
         );
 
@@ -194,7 +195,10 @@ public class Player : MonoBehaviour, IDamageable
             if (Health < 1)
             {
                 isDead = true;
-                _playerAnimation.Dead();
+
+                _playerBody.velocity = new Vector2(0, 0);
+
+                StartCoroutine(_playerAnimation.Dead());
                 AudioManager.Instance.PlaySFX(sfxAudios[0], 0.5f);
             }
             else
@@ -203,11 +207,5 @@ public class Player : MonoBehaviour, IDamageable
                 AudioManager.Instance.PlaySFX(sfxAudios[1], 0.5f);
             }
         }
-    }
-
-    public void AddGems(int amount)
-    {
-        Diamonds += amount;
-        UIManager.Instance.UpdateGemCount(Diamonds);
     }
 }

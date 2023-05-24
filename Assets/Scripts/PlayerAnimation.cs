@@ -7,6 +7,9 @@ public class PlayerAnimation : MonoBehaviour
     private Animator _playerAnimator;
     private Animator _swordArcAnimator;
 
+    [SerializeField]
+    private GameObject _gameOverScreen;
+
     void Start()
     {
         _playerAnimator = transform.GetChild(0).GetComponent<Animator>();
@@ -34,9 +37,13 @@ public class PlayerAnimation : MonoBehaviour
         _playerAnimator.SetTrigger("Hit");
     }
 
-    public void Dead()
+    public IEnumerator Dead()
     {
         _playerAnimator.SetTrigger("Dead");
         Debug.Log("Player Died!");
+
+        yield return new WaitForSeconds(2);
+
+        _gameOverScreen.SetActive(true);
     }
 }
